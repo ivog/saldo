@@ -1,20 +1,18 @@
 import { reactive, watch } from 'vue'
 import type { FinanceData } from './types'
+import { sampleData } from './sample'
+import { todayIso } from './dates'
 
 const STORAGE_KEY = 'saldo.data.v1'
-
-function empty(): FinanceData {
-  return { version: 1, accounts: [], recurring: [], oneOffs: [] }
-}
 
 function load(): FinanceData {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (raw) return parse(raw)
   } catch {
-    // Corrupte of ontoegankelijke opslag: begin leeg.
+    // Corrupte of ontoegankelijke opslag: begin met voorbeeldgegevens.
   }
-  return empty()
+  return sampleData(todayIso())
 }
 
 export function parse(json: string): FinanceData {
@@ -44,6 +42,11 @@ export function replaceData(data: FinanceData) {
   store.accounts = data.accounts
   store.recurring = data.recurring
   store.oneOffs = data.oneOffs
+  store.isExample = data.isExample ?? false
+}
+
+export function clearData() {
+  replaceData({ version: 1, accounts: [], recurring: [], oneOffs: [] })
 }
 
 export function removeAccount(id: string) {

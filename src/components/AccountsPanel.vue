@@ -3,6 +3,7 @@ import { computed, reactive } from 'vue'
 import { removeAccount, store } from '../lib/store'
 import { formatEuro, newId } from '../lib/format'
 import { todayIso } from '../lib/dates'
+import ConfirmButton from './ConfirmButton.vue'
 
 const form = reactive({ name: '', balance: 0, balanceDate: todayIso() })
 
@@ -21,12 +22,11 @@ function add() {
   form.balanceDate = todayIso()
 }
 
-function remove(id: string, name: string) {
+function deleteQuestion(id: string) {
   const linked =
     store.recurring.filter((r) => r.accountId === id).length +
     store.oneOffs.filter((o) => o.accountId === id).length
-  const extra = linked ? `\n\nDaarmee worden ook ${linked} gekoppelde post(en) verwijderd.` : ''
-  if (confirm(`Rekening "${name}" verwijderen?${extra}`)) removeAccount(id)
+  return linked ? `Ook ${linked} gekoppelde post(en) worden verwijderd.` : 'Zeker weten?'
 }
 </script>
 
@@ -58,7 +58,7 @@ function remove(id: string, name: string) {
             <button v-if="a.balanceDate !== todayIso()" class="link" @click="a.balanceDate = todayIso()">vandaag</button>
           </td>
           <td class="actions">
-            <button class="danger" @click="remove(a.id, a.name)">Verwijderen</button>
+            <ConfirmButton :question="deleteQuestion(a.id)" @confirm="removeAccount(a.id)" />
           </td>
         </tr>
       </tbody>

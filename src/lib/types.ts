@@ -41,4 +41,6 @@ export interface FinanceData {
   accounts: Account[]
   recurring: RecurringItem[]
   oneOffs: OneOffItem[]
+  /** True zolang de app nog de meegeleverde voorbeeldgegevens toont. */
+  isExample?: boolean
 }

@@ -3,6 +3,7 @@ import { computed, reactive, ref } from 'vue'
 import { accountName, store } from '../lib/store'
 import { formatEuro, newId } from '../lib/format'
 import { formatDate, todayIso } from '../lib/dates'
+import ConfirmButton from './ConfirmButton.vue'
 import type { Kind, OneOffItem } from '../lib/types'
 
 const today = todayIso()
@@ -41,7 +42,6 @@ function edit(item: OneOffItem) {
 }
 
 function remove(item: OneOffItem) {
-  if (!confirm(`"${item.name}" verwijderen?`)) return
   store.oneOffs = store.oneOffs.filter((o) => o.id !== item.id)
   if (editingId.value === item.id) reset()
 }
@@ -76,7 +76,7 @@ const pastCount = computed(() => sorted.value.length - sorted.value.filter((o) =
           <td data-label="Rekening">{{ accountName(o.accountId) }}</td>
           <td class="actions">
             <button @click="edit(o)">Bewerken</button>
-            <button class="danger" @click="remove(o)">Verwijderen</button>
+            <ConfirmButton @confirm="remove(o)" />
           </td>
         </tr>
       </tbody>

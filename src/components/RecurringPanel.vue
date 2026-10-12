@@ -4,6 +4,7 @@ import { accountName, store } from '../lib/store'
 import { formatEuro, intervalLabels, newId } from '../lib/format'
 import { formatMonth, monthOf, todayIso } from '../lib/dates'
 import { monthlyEquivalent } from '../lib/forecast'
+import ConfirmButton from './ConfirmButton.vue'
 import type { Kind, RecurringItem } from '../lib/types'
 
 const editingId = ref<string | null>(null)
@@ -52,7 +53,6 @@ function edit(item: RecurringItem) {
 }
 
 function remove(item: RecurringItem) {
-  if (!confirm(`"${item.name}" verwijderen?`)) return
   store.recurring = store.recurring.filter((r) => r.id !== item.id)
   if (editingId.value === item.id) reset()
 }
@@ -120,7 +120,7 @@ function period(r: RecurringItem) {
             <td data-label="Periode">{{ period(r) }}</td>
             <td class="actions">
               <button @click="edit(r)">Bewerken</button>
-              <button class="danger" @click="remove(r)">Verwijderen</button>
+              <ConfirmButton @confirm="remove(r)" />
             </td>
           </tr>
         </tbody>
