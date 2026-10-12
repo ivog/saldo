@@ -1,0 +1,24 @@
+{
+  "name": "saldo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Persoonlijke financiën: rekeningen, vaste lasten/inkomsten, eenmalige posten en saldoprognose",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "vue": "^3.5.43"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.10",
+    "typescript": "~5.9.0",
+    "vite": "^7.3.7",
+    "vitest": "^5.0.4",
+    "vue-tsc": "^3.3.13"
+  }
+}
